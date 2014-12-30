@@ -12,11 +12,11 @@ import javax.microedition.khronos.opengles.GL10;
  * @see android.opengl.GLSurfaceView.Renderer
  *
  *
- * Example is taken from Pro OpenFL ES for Android textbook
+ * Example is taken from Pro OpenGL ES for Android textbook
  *
  *
  * @author Jeton Sinoimeri
- * @version 1.0
+ * @version 1.1
  * @since 2014-12-29
  *
  */
@@ -25,30 +25,30 @@ public class SquareRenderer implements GLSurfaceView.Renderer
 {
 
     /**
-     * mTranslucentBackground: boolean value indicating the use of the
-     *                         translucent background.
+     * translucentBackground: boolean value indicating the use of the
+     *                        translucent background.
      *
      */
 
-    private boolean mTranslucentBackground;
+    private boolean translucentBackground;
 
 
     /**
-     * mSquare: Square instance representing the Square to be drawn
-     *          to screen.
+     * square: Square instance representing the Square to be drawn
+     *         to screen.
      *
      */
 
-    private Square mSquare;
+    private Square square;
 
 
     /**
-     * mTransY: float value representing the y-coordinate of the
+     * transY: float value representing the y-coordinate of the
      *          square's translation.
      *
      */
 
-    private float mTransY;
+    private float transY;
 
 
 
@@ -62,8 +62,8 @@ public class SquareRenderer implements GLSurfaceView.Renderer
 
     public SquareRenderer(boolean useTranslucentBackground)
     {
-        this.mTranslucentBackground = useTranslucentBackground;
-        this.mSquare = new Square();
+        this.translucentBackground = useTranslucentBackground;
+        this.square = new Square();
     }
 
 
@@ -96,7 +96,7 @@ public class SquareRenderer implements GLSurfaceView.Renderer
 
 
         // depending on mTranslucentBackground value, background is set to black or white
-        if (this.mTranslucentBackground)
+        if (this.translucentBackground)
             gl.glClearColor(0, 0, 0, 0);
 
         else
@@ -134,6 +134,7 @@ public class SquareRenderer implements GLSurfaceView.Renderer
         // specifies the actual dimensions and placement of the OpenGL window
         gl.glViewport(0, 0, width, height);
 
+        // find the ration between the width and height
         float ratio = (float) width / height;
 
         // sets the mode of the matrix to GL_PROJECTION which is responsible for projecting 3D to 2D
@@ -170,16 +171,17 @@ public class SquareRenderer implements GLSurfaceView.Renderer
         gl.glLoadIdentity();
 
         // translates the box up and down
-        gl.glTranslatef(0.0f, (float)Math.sin(mTransY), -3.0f);
+        gl.glTranslatef(0.0f, (float)Math.sin(this.transY), -3.0f);
 
         // tells OpenGL to expect both vertex and colour data
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
         gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
 
         // calls the draw method of Square to draw to screen
-        this.mSquare.draw(gl);
+        this.square.draw(gl);
 
-        this.mTransY += 0.075f;
+        // increment the transY field to move the square on the screen
+        this.transY += 0.05f;
 
     }
 }
