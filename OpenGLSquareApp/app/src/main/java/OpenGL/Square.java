@@ -12,11 +12,11 @@ import javax.microedition.khronos.opengles.GL11;
  * An OpenGL ES representation of a
  * Square.
  *
- * Example is taken from Pro OpenFL ES for Android textbook
+ * Example is taken from Pro OpenGL ES for Android textbook
  *
  *
  * @author Jeton Sinoimeri
- * @version 1.0
+ * @version 1.1
  * @since 2014-12-29
  *
  */
@@ -25,25 +25,26 @@ public class Square
 {
 
     /**
-     * mFVertexBuffer: FloatBuffer instance representing the vertices of
-     *                 the square.
+     * vertexFloatBuffer: FloatBuffer instance representing the vertices of
+     *                    the square.
      *
      */
 
-    private FloatBuffer mFVertexBuffer;
+    private FloatBuffer vertexFloatBuffer;
 
 
     /**
-     * mColourBuffer: ByteBuffer instance representing the colours of each
-     *                vertex in the square.
+     * colourByteBuffer: ByteBuffer instance representing the colours of each
+     *                   vertex in the square.
      *
-     * mIndexBuffer: ByteBuffer instance representing the indices of the
-     *               two triangles that will make this square.
+     * indexByteBuffer: ByteBuffer instance representing the indices of the
+     *                  two triangles that will make this square.
      *
      */
 
-    private ByteBuffer mColourBuffer,
-                       mIndexBuffer;
+    private ByteBuffer colourByteBuffer,
+                       indexByteBuffer;
+
 
 
     /**
@@ -96,17 +97,17 @@ public class Square
         ByteBuffer vertexByteBuffer = ByteBuffer.allocateDirect(vertices.length * 4);
         vertexByteBuffer.order(ByteOrder.nativeOrder());
 
-        this.mFVertexBuffer = vertexByteBuffer.asFloatBuffer();
-        this.mFVertexBuffer.put(vertices);
-        this.mFVertexBuffer.position(0);
+        this.vertexFloatBuffer = vertexByteBuffer.asFloatBuffer();
+        this.vertexFloatBuffer.put(vertices);
+        this.vertexFloatBuffer.position(0);
 
-        this.mColourBuffer = ByteBuffer.allocateDirect(colours.length);
-        this.mColourBuffer.put(colours);
-        this.mColourBuffer.position(0);
+        this.colourByteBuffer = ByteBuffer.allocateDirect(colours.length);
+        this.colourByteBuffer.put(colours);
+        this.colourByteBuffer.position(0);
 
-        this.mIndexBuffer = ByteBuffer.allocateDirect(indices.length);
-        this.mIndexBuffer.put(indices);
-        this.mIndexBuffer.position(0);
+        this.indexByteBuffer = ByteBuffer.allocateDirect(indices.length);
+        this.indexByteBuffer.put(indices);
+        this.indexByteBuffer.position(0);
 
 
     }
@@ -128,11 +129,11 @@ public class Square
         // Stride is the number of user info bytes packed between GL data that system can skip over
 
         // the methods specify the number of elements/vertex, data type, the stride size, the array
-        gl10.glVertexPointer(2, GL11.GL_FLOAT, 0, this.mFVertexBuffer);
-        gl10.glColorPointer(4, GL11.GL_UNSIGNED_BYTE, 0, this.mColourBuffer);
+        gl10.glVertexPointer(2, GL11.GL_FLOAT, 0, this.vertexFloatBuffer);
+        gl10.glColorPointer(4, GL11.GL_UNSIGNED_BYTE, 0, this.colourByteBuffer);
 
         // draws the elements to screen, method takes in format of geometry, size, data type, array
-        gl10.glDrawElements(GL11.GL_TRIANGLES, 6, GL11.GL_UNSIGNED_BYTE, this.mIndexBuffer);
+        gl10.glDrawElements(GL11.GL_TRIANGLES, 6, GL11.GL_UNSIGNED_BYTE, this.indexByteBuffer);
 
         // reset the ordering of the vertices to default, CCW means CounterClockwise
         gl10.glFrontFace(GL11.GL_CCW);
